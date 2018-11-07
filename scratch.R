@@ -74,12 +74,19 @@ x %>%
 # all the files which have "A" in the name.
 
 
-read_A <- function(x){
+read_with_character <- function(x){
   
-  file_names <- dir_ls("data/")
-  file_names_A <- str_subset(file_names, pattern = x)
+  # Note that we use dir_ls() so that filenames has class fs_path/character. We
+  # could also use str_subset, as long as we added in the name attribute
+  # afterwards.
   
-  output <- map_dfr(file_names_A, read_csv, .id = "source")
+  file_names <- dir_ls("data/", regexp = x)
+  output <- map_dfr(file_names, read_csv, .id = "source")
+
+  # We don't really need the explicit return of output. As you saw in DataCamp,
+  # functions will return the last thing calculated, which is already output.
+  # But it can be nice to be explicit.
+  
   output
 
 }
