@@ -73,10 +73,15 @@ x %>%
 # 7. Write a function which takes a character string like "A" and then reads in
 # all the files which have "A" in the name.
 
-read_my_character <- function(x){
+
+read_A <- function(x){
   
+  file_names <- dir_ls("data/")
+  file_names_A <- str_subset(file_names, pattern = x)
   
-  
+  output <- map_dfr(file_names_A, read_csv, .id = "source")
+  output
+
 }
 
 
